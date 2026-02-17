@@ -1,0 +1,32 @@
+import allure
+from data import data_ui
+from pages.main_page import MainPage
+from pages.lifetime_membership_page import LifetimeMembershipPage
+import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
+
+@allure.suite('U1 test-cases')
+@allure.epic('Block1: UI Auto-tests')
+@allure.feature('Main Page Navigation To Lifetime Membership Page')
+@allure.story('Main Page: Navigation To Lifetime Membership Page')
+@allure.severity(allure.severity_level.CRITICAL)
+@allure.title('TC03: Переход по меню навигации на страницу Lifetime Membership')
+@pytest.mark.ui
+@pytest.mark.positive
+def test_main_page_navigation_to_lifetime_membership(driver: WebDriver) -> None:
+    main_page: MainPage = MainPage(driver)
+    main_page.open(data_ui.MAIN_PAGE_URL)
+
+    lifetime_membership_page: LifetimeMembershipPage = main_page.navigate_to_lifetime_membership()
+
+    page_title: str = lifetime_membership_page.get_page_title()
+
+    with allure.step(f'Проверка заголовка страницы {page_title}'):
+        assert 'MEMBERSHIP' in page_title, \
+            f'Неверный заголовок страницы Lifetime Membership: {page_title}'
+
+    page_url: str = lifetime_membership_page.get_page_url()
+
+    with allure.step(f'Проверка URL страницы {page_url}'):
+        assert page_url == data_ui.LIFETIME_MEMBERSHIP_URL, \
+            f'Неверный URL страницы Lifetime Membership: {page_url}'

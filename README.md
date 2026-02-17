@@ -187,7 +187,7 @@ pip install -r requirements.txt
   2. В поля `First Name` ввести валидное значение (`Tony`)
   3. В поле `Last Name` ввести валидное значение (`Stark`)
   4. В поле `Email` ввести валидное значение (`tony@stark.com`)
-  5. В поле `Password` ввести валидное значение (`password`)
+  5. В поле `Password` ввести валидное значение (`password123`)
   6. В пункте `Hobbies` выбрать `Sports`
   7. В поле `About Yourself` ввести текст по следующей логике:
      - Текст: `Самое длинное слово из предложенных хобби — [N]`
@@ -202,6 +202,6 @@ pip install -r requirements.txt
 
 - **Тестовые данные**:
   1. `First Name` — `Tony`
-  2. `Second Name` — `Stark`
+  2. `Last Name` — `Stark`
   3. `Email` — `tony@stark.com`
-  4. `Password` — `password`
+  4. `Password` — `password123`

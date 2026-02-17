@@ -42,3 +42,9 @@ dist/
 *.egg-info/
 *.egg
 *.whl
+
+tests/test_login_form_page_success.py
+tests/test_registration_form_page_failure.py
+pages/login_form_page.py
+pages/registration_form_page.py
+utils/hobbie_len_calculator.py
