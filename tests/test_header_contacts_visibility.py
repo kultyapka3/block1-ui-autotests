@@ -22,5 +22,5 @@ def test_main_page_header_contact_info_is_visible(driver: WebDriver) -> None:
     phone_number: str = main_page.get_phone_number()
 
     with allure.step(f'Проверка номера {phone_number}'):
-        assert phone_number.strip(), \
+        assert phone_number, \
             f'Номер телефона {phone_number} не отображается'

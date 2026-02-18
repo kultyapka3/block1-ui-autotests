@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from typing import Tuple
 
-# Тип локатора для аннотаций
 Locator = Tuple[By, str]
 
 class LifetimeMembershipPage(BasePage):

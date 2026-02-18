@@ -1,5 +1,5 @@
 import allure
-from data import data_ui
+from data.data_ui import DEFAULT_TIMEOUT
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -7,11 +7,10 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
 from typing import Tuple, Optional
 
-# Тип локатора для аннотаций
 Locator = Tuple[By, str]
 
 class BasePage:
-    def __init__(self, driver: WebDriver, default_timeout: int = data_ui.DEFAULT_TIMEOUT):
+    def __init__(self, driver: WebDriver, default_timeout: int = DEFAULT_TIMEOUT):
         self.driver = driver
         self.default_timeout = default_timeout
         self.wait = WebDriverWait(driver, default_timeout)
@@ -27,6 +26,17 @@ class BasePage:
         return WebDriverWait(self.driver, timeout).until(
             ec.presence_of_element_located(locator)
         )
+
+    def wait_for_elements_to_be_present(self, locator: Locator, timeout: Optional[int] = None) -> list[WebElement]:
+        timeout = timeout or self.default_timeout
+
+        return WebDriverWait(self.driver, timeout).until(
+            ec.presence_of_all_elements_located(locator)
+        )
+
+    @allure.step('Поиск элементов {locator}')
+    def find_elements(self, locator: Locator) -> list[WebElement]:
+        return self.driver.find_elements(*locator)
 
     @allure.step('Прокручивание страницы до середины')
     def scroll_page_to_middle(self) -> None:

@@ -1,5 +1,5 @@
 import allure
-from data import data_ui
+from data.data_ui import MAIN_PAGE_URL, LIFETIME_MEMBERSHIP_URL
 from pages.main_page import MainPage
 from pages.lifetime_membership_page import LifetimeMembershipPage
 import pytest
@@ -15,7 +15,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @pytest.mark.positive
 def test_main_page_navigation_to_lifetime_membership(driver: WebDriver) -> None:
     main_page: MainPage = MainPage(driver)
-    main_page.open(data_ui.MAIN_PAGE_URL)
+    main_page.open(MAIN_PAGE_URL)
 
     lifetime_membership_page: LifetimeMembershipPage = main_page.navigate_to_lifetime_membership()
 
@@ -28,5 +28,5 @@ def test_main_page_navigation_to_lifetime_membership(driver: WebDriver) -> None:
     page_url: str = lifetime_membership_page.get_page_url()
 
     with allure.step(f'Проверка URL страницы {page_url}'):
-        assert page_url == data_ui.LIFETIME_MEMBERSHIP_URL, \
+        assert page_url == LIFETIME_MEMBERSHIP_URL, \
             f'Неверный URL страницы Lifetime Membership: {page_url}'

@@ -85,7 +85,7 @@ pip install -r requirements.txt
 - Параллельный запуск тестов:
 
     ```bash
-    pytest -m ui -n 3
+    pytest -m ui -n 5
     ```
 
 ---
@@ -162,7 +162,8 @@ pip install -r requirements.txt
 - **Шаги**:
   1. Ввести в поле `Username` валидное значение (`angular`)
   2. Ввести в поле `Password` валидное значение (`password`)
-  3. Нажать кнопку `Login`
+  3. Ввести в поле `Username *` валидное значение (`Igor`)
+  4. Нажать кнопку `Login`
 
 - **Ожидаемый результат**:
   1. Отображается сообщение об успешной авторизации `You're logged in!!`
@@ -175,6 +176,7 @@ pip install -r requirements.txt
 - **Тестовые данные**:
   1. `Username` — `angular`
   2. `Password` — `password`
+  3. `Username *` — `Igor`
 
 ### Тест-кейс №05. Регистрация в `Sample Form` с пропущенным полем `Gender`
 
@@ -205,3 +207,4 @@ pip install -r requirements.txt
   2. `Last Name` — `Stark`
   3. `Email` — `tony@stark.com`
   4. `Password` — `password123`
+  5. `Hobby` — `Sports`

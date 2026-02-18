@@ -12,8 +12,9 @@ DEFAULT_TIMEOUT: Final[int] = 10
 # Тестовые данные
 # Для формы авторизации
 class TestLoginData:
-    USERNAME: Final[str] = 'angular'
+    USERNAME_LOGIN: Final[str] = 'angular'
     PASSWORD: Final[str] = 'password'
+    USERNAME: Final[str] = 'Igor'
 
 # Для формы регистрации
 class TestRegistrationData:
@@ -21,3 +22,4 @@ class TestRegistrationData:
     LAST_NAME: Final[str] = 'Stark'
     EMAIL: Final[str] = 'tony@stark.com'
     PASSWORD: Final[str] = 'password123'
+    HOBBY: Final[str] = 'Sports'

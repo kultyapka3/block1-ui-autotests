@@ -6,7 +6,6 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from typing import Tuple
 
-# Тип локатора для аннотаций
 Locator = Tuple[By, str]
 
 class MainPage(BasePage):
@@ -14,8 +13,8 @@ class MainPage(BasePage):
     HEADER_CONTAINER: Locator = (By.CSS_SELECTOR, 'header.site-header')
     PHONE_NUMBERS: Locator = (By.XPATH, '//header//a[contains(@href, "tel:")]')
     NAVIGATION_MENU: Locator = (By.CSS_SELECTOR, '.main-header-bar')
-    ALL_COURSES_MENU: Locator = (By.LINK_TEXT, "All Courses")
-    LIFETIME_MEMBERSHIP_LINK: Locator = (By.XPATH, "//a[contains(@href, 'lifetime-membership')]")
+    ALL_COURSES_MENU: Locator = (By.LINK_TEXT, 'All Courses')
+    LIFETIME_MEMBERSHIP_LINK: Locator = (By.XPATH, '//a[contains(@href, "lifetime-membership")]')
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)

@@ -3,6 +3,7 @@ import os
 import pytest
 from pytest import Session, ExitCode
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.remote.webdriver import WebDriver
 import subprocess
@@ -17,20 +18,31 @@ def pytest_configure() -> None:
         datefmt='%Y-%m-%d %H:%M:%S'
     )
 
-# Фикстура для веб-драйвера
-@pytest.fixture(scope='function')
+# Настройка общего кэша для всех процессов
+os.environ['WDM_GLOBAL_CACHE'] = 'true'
+os.environ['WDM_LOCAL'] = os.path.join(os.getcwd(), '.wdm_cache')
+
+# Фикстура для предварительной загрузки драйвера
+@pytest.fixture(scope="session", autouse=True)
+def setup_driver_cache() -> Generator[None, None, None]:
+    ChromeDriverManager().install()
+    yield
+
+# Фикстура для создания драйвера
+@pytest.fixture(scope="function")
 def driver() -> Generator[WebDriver, None, None]:
-    service = Service(ChromeDriverManager().install())
-    options = webdriver.ChromeOptions()
+    options = Options()
     options.page_load_strategy = 'eager'
 
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
+
     yield driver
     driver.quit()
 
 # Хук для генерации отчетов Allure
 @pytest.hookimpl(trylast=True)
-def pytest_sessionfinish(session: Session, exitstatus: int | ExitCode) -> None:
+def pytest_sessionfinish(session: Session) -> None:
     # Запускаем только в локальной среде
     if os.getenv('CI'):
         return

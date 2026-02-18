@@ -1,5 +1,5 @@
 import allure
-from data import data_ui
+from data.data_ui import MAIN_PAGE_URL
 from pages.main_page import MainPage
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -14,7 +14,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @pytest.mark.positive
 def test_main_page_navigation_menu_visibility_after_scroll(driver: WebDriver) -> None:
     main_page: MainPage = MainPage(driver)
-    main_page.open(data_ui.MAIN_PAGE_URL)
+    main_page.open(MAIN_PAGE_URL)
 
     assert main_page.is_navigation_sticky(), \
         'Меню навигации не фиксируется при прокрутке страницы'
