@@ -31,7 +31,7 @@ class MainPage(BasePage):
         phone_element: WebElement = self.find_visible_element(self.PHONE_NUMBERS)
         phone_text: str = phone_element.text.strip()
 
-        return phone_text.replace(" ", "").replace("-", "")
+        return phone_text.replace(' ', '').replace('-', '')
 
     @allure.step('Проверка фиксации меню при прокрутке')
     def is_navigation_sticky(self) -> bool:

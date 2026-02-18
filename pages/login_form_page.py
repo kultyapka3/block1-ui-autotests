@@ -12,6 +12,7 @@ class LoginFormPage(BasePage):
     USERNAME_FIELD: Locator = (By.XPATH, '//div[contains(@class, "formly-field-input")]//input[@required]')
     LOGIN_BUTTON: Locator = (By.XPATH, '//button[@ng-click="Auth.login()"]')
     SUCCESS_MESSAGE: Locator = (By.XPATH, '//p[text()="You\'re logged in!!"]')
+    ERROR_MESSAGE: Locator = (By.XPATH, '//div[@ng-if="Auth.error"]')
     LOGOUT_BUTTON: Locator = (By.LINK_TEXT, 'Logout')
 
     def __init__(self, driver):
@@ -38,6 +39,10 @@ class LoginFormPage(BasePage):
 
         return self
 
+    @allure.step('Получение состояния кнопки "Login"')
+    def is_login_button_enabled(self) -> bool:
+        return self.find_visible_element(self.LOGIN_BUTTON).is_enabled()
+
     @allure.step('Нажатие на кнопку "Login"')
     def login(self) -> 'LoginFormPage':
         self.click_element(self.LOGIN_BUTTON)
@@ -47,6 +52,10 @@ class LoginFormPage(BasePage):
     @allure.step('Получение сообщения об успешной авторизации')
     def get_success_message(self) -> str:
         return self.find_visible_element(self.SUCCESS_MESSAGE).text.strip()
+
+    @allure.step('Получение сообщения об ошибке авторизации')
+    def get_error_message(self) -> str:
+        return self.find_visible_element(self.ERROR_MESSAGE).text.strip()
 
     @allure.step('Нажатие на кнопку "Logout"')
     def logout(self) -> 'LoginFormPage':

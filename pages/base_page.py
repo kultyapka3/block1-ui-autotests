@@ -77,3 +77,17 @@ class BasePage:
     @allure.step('Получение текущего url')
     def get_current_url(self) -> str:
         return self.driver.current_url
+
+    # Ленивая инициализация
+    def __getattr__(self, name):
+        if name.endswith('_field'):
+            locator_name = name.replace('_field', '').upper() + '_LOCATOR'
+
+            if hasattr(self, locator_name):
+                locator = getattr(self, locator_name)
+
+                if not hasattr(self, f'_{name}'):
+                    setattr(self, f'_{name}', self.find_element(locator))
+                return getattr(self, f'_{name}')
+
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")

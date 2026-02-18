@@ -1,5 +1,5 @@
 import allure
-from data.data_ui import TestLoginData, LOGIN_FORM_URL
+from data.data_ui import LoginTestData, LOGIN_FORM_URL
 from pages.login_form_page import LoginFormPage
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -16,9 +16,9 @@ def test_login_page_valid_credentials_login_success(driver: WebDriver) -> None:
     login_form_page: LoginFormPage = LoginFormPage(driver)
     login_form_page.open(LOGIN_FORM_URL)
 
-    login_form_page.enter_username_login(TestLoginData.USERNAME_LOGIN) \
-                   .enter_password(TestLoginData.PASSWORD) \
-                   .enter_username(TestLoginData.USERNAME) \
+    login_form_page.enter_username_login(LoginTestData.USERNAME_LOGIN) \
+                   .enter_password(LoginTestData.PASSWORD) \
+                   .enter_username(LoginTestData.USERNAME) \
                    .login()
 
     success_message: str = login_form_page.get_success_message()
