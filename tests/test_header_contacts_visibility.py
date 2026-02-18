@@ -12,6 +12,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @allure.title('TC01: Отображение хедера с контактной информацией на главной странице')
 @pytest.mark.ui
 @pytest.mark.positive
+@pytest.mark.successful
 def test_main_page_header_contact_info_is_visible(driver: WebDriver) -> None:
     main_page: MainPage = MainPage(driver)
     main_page.open(data_ui.MAIN_PAGE_URL)

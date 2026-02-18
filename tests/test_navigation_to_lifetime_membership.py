@@ -13,6 +13,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @allure.title('TC03: Переход по меню навигации на страницу Lifetime Membership')
 @pytest.mark.ui
 @pytest.mark.positive
+@pytest.mark.successful
 def test_main_page_navigation_to_lifetime_membership(driver: WebDriver) -> None:
     main_page: MainPage = MainPage(driver)
     main_page.open(MAIN_PAGE_URL)

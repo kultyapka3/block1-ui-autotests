@@ -12,6 +12,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @allure.title('TC04: Авторизация на сайте с валидными данными')
 @pytest.mark.ui
 @pytest.mark.positive
+@pytest.mark.successful
 def test_login_page_valid_credentials_login_success(driver: WebDriver) -> None:
     login_form_page: LoginFormPage = LoginFormPage(driver)
     login_form_page.open(LOGIN_FORM_URL)

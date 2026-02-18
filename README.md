@@ -264,3 +264,53 @@ pip install -r requirements.txt
      - `Username` — `   `
      - `Password` — `   `
      - `Username *` — `Hero`
+
+---
+
+## U4. Тест-кейсы
+
+### Тест-кейс №07. Падающий тест авторизации с пустым `Username *`
+
+- **Предусловие**:
+  1. Открыть браузер
+  2. Перейти по ссылке: https://www.way2automation.com/angularjs-protractor/registeration/#/login
+
+- **Шаги**:
+  1. Ввести в поле `Username` валидное значение (`angular`)
+  2. Ввести в поле `Password` валидное значение (`password`)
+  3. В поле `Username *` ничего не вводить
+  4. Нажать кнопку `Login`
+
+- **Ожидаемый результат**:
+  1. Отображается сообщение об ошибке авторизации `Username or password is incorrect`
+
+- **Постусловие**:
+  1. Закрыть браузер
+
+- **Тестовые данные**:
+  1. `Username` — `angular`
+  2. `Password` — `password`
+
+### Тест-кейс №08. Падающий тест авторизации с отсутствующим элементом страницы
+
+- **Предусловие**:
+  1. Открыть браузер
+  2. Перейти по ссылке: https://www.way2automation.com/angularjs-protractor/registeration/#/login
+
+- **Шаги**:
+  1. Ввести в поле `Username` валидное значение (`angular`)
+  2. Ввести в поле `Password` валидное значение (`password`)
+  3. Ввести в поле `Username *` валидное значение (`Igor`)
+  4. Нажать кнопку `Login`
+
+- **Ожидаемый результат**:
+  1. Отображается сообщение об ошибки авторизации `Username or password is incorrect`
+
+- **Постусловие**:
+  1. Нажать кнопку `Logout`
+  2. Закрыть браузер
+
+- **Тестовые данные**:
+  1. `Username` — `angular`
+  2. `Password` — `password`
+  3. `Username *` — `Igor`

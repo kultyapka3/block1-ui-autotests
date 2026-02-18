@@ -12,6 +12,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @allure.title('TC02: Фиксация меню навигации при прокрутке страницы')
 @pytest.mark.ui
 @pytest.mark.positive
+@pytest.mark.successful
 def test_main_page_navigation_menu_visibility_after_scroll(driver: WebDriver) -> None:
     main_page: MainPage = MainPage(driver)
     main_page.open(MAIN_PAGE_URL)

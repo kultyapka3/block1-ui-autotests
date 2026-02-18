@@ -1,7 +1,9 @@
+import allure
+from datetime import datetime
 import logging
 import os
 import pytest
-from pytest import Session, ExitCode
+from pytest import Session
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -23,13 +25,13 @@ os.environ['WDM_GLOBAL_CACHE'] = 'true'
 os.environ['WDM_LOCAL'] = os.path.join(os.getcwd(), '.wdm_cache')
 
 # Фикстура для предварительной загрузки драйвера
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope='session', autouse=True)
 def setup_driver_cache() -> Generator[None, None, None]:
     ChromeDriverManager().install()
     yield
 
 # Фикстура для создания драйвера
-@pytest.fixture(scope="function")
+@pytest.fixture(scope='function')
 def driver() -> Generator[WebDriver, None, None]:
     options = Options()
     options.page_load_strategy = 'eager'
@@ -39,6 +41,25 @@ def driver() -> Generator[WebDriver, None, None]:
 
     yield driver
     driver.quit()
+
+# Хук для добавления скриншотов в отчеты Allure
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item):
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == 'call' and report.outcome == 'failed':
+        driver = item.funcargs.get('driver') if hasattr(item, 'funcargs') else None
+
+        if driver:
+            screenshot = driver.get_screenshot_as_png()
+            timestamp = datetime.now().strftime('%Y.%m.%d_%H:%M:%S')
+
+            allure.attach(
+                screenshot,
+                name=f'Failed_test_screenshot_{timestamp}',
+                attachment_type=allure.attachment_type.PNG
+            )
 
 # Хук для генерации отчетов Allure
 @pytest.hookimpl(trylast=True)

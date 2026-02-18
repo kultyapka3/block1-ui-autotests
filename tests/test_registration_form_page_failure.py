@@ -14,6 +14,7 @@ from utils.hobbie_len_calculator import get_longest_hobby
 @allure.title('TC05: Регистрация в "Sample Form" с пропущенным полем "Gender"')
 @pytest.mark.ui
 @pytest.mark.negative
+@pytest.mark.successful
 def test_registration_page_failure(driver: WebDriver) -> None:
     registration_form_page: RegistrationFormPage = RegistrationFormPage(driver)
     registration_form_page.open(REGISTRATION_FORM_URL)

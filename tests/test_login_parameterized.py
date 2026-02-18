@@ -12,6 +12,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @allure.title('TC06: Параметризованная авторизация на сайте')
 @pytest.mark.ui
 @pytest.mark.parameterized
+@pytest.mark.successful
 @pytest.mark.parametrize('test_data', LOGIN_TEST_PARAMETERIZED_DATA, ids=[data.test_name for data in LOGIN_TEST_PARAMETERIZED_DATA])
 def test_login_with_different_credentials(driver: WebDriver, test_data: LoginTestParameterizedData) -> None:
     login_form_page: LoginFormPage = LoginFormPage(driver)
