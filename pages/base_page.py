@@ -78,6 +78,10 @@ class BasePage:
     def get_current_url(self) -> str:
         return self.driver.current_url
 
+    @allure.step('Обновление страницы')
+    def refresh_page(self) -> None:
+        self.driver.refresh()
+
     # Ленивая инициализация
     def __getattr__(self, name):
         if name.endswith('_field'):

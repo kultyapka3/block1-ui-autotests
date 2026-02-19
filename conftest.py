@@ -61,6 +61,15 @@ def pytest_runtest_makereport(item):
                 attachment_type=allure.attachment_type.PNG
             )
 
+# Добваление кастомной опции
+def pytest_addoption(parser):
+    parser.addoption(
+        '--run-mode',
+        action='store',
+        default='first',
+        help='Режим запуска: first (обычная авторизация) или second (авторизация через cookies)'
+    )
+
 # Хук для генерации отчетов Allure
 @pytest.hookimpl(trylast=True)
 def pytest_sessionfinish(session: Session) -> None:
@@ -73,4 +82,4 @@ def pytest_sessionfinish(session: Session) -> None:
         return
 
     allure_results_dir = session.config.getoption('--alluredir')
-    # subprocess.Popen(['allure', 'serve', f'{allure_results_dir}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    # subprocess.Popen(['allure.bat', 'serve', allure_results_dir], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
