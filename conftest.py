@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.remote.webdriver import WebDriver
 import subprocess
-from typing import Generator
+from typing import Generator, Any
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Настройка логирования
@@ -33,27 +33,27 @@ def setup_driver_cache() -> Generator[None, None, None]:
 # Фикстура для создания драйвера
 @pytest.fixture(scope='function')
 def driver() -> Generator[WebDriver, None, None]:
-    options = Options()
+    options: Options = Options()
     options.page_load_strategy = 'eager'
 
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
+    service: Service = Service(ChromeDriverManager().install())
+    driver: WebDriver = webdriver.Chrome(service=service, options=options)
 
     yield driver
     driver.quit()
 
 # Хук для добавления скриншотов в отчеты Allure
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item):
+def pytest_runtest_makereport(item: Any) -> Generator[None, Any, None]:
     outcome = yield
-    report = outcome.get_result()
+    report: Any = outcome.get_result()
 
     if report.when == 'call' and report.outcome == 'failed':
-        driver = item.funcargs.get('driver') if hasattr(item, 'funcargs') else None
+        driver: Any = item.funcargs.get('driver') if hasattr(item, 'funcargs') else None
 
         if driver:
-            screenshot = driver.get_screenshot_as_png()
-            timestamp = datetime.now().strftime('%Y.%m.%d_%H:%M:%S')
+            screenshot: bytes = driver.get_screenshot_as_png()
+            timestamp: str = datetime.now().strftime('%Y.%m.%d_%H:%M:%S')
 
             allure.attach(
                 screenshot,
@@ -62,7 +62,7 @@ def pytest_runtest_makereport(item):
             )
 
 # Добваление кастомной опции
-def pytest_addoption(parser):
+def pytest_addoption(parser: Any) -> None:
     parser.addoption(
         '--run-mode',
         action='store',

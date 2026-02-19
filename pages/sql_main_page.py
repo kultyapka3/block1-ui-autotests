@@ -1,13 +1,14 @@
 import allure
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 from typing import Tuple
 
 Locator = Tuple[By, str]
 
-class SqlCookieLoginPage(BasePage):
+class SqlMainPage(BasePage):
     # Локаторы
-    USERNAME_FIELD: Locator = (By.NAME, 'login')
+    LOGIN_FIELD: Locator = (By.NAME, 'login')
     PASSWORD_FIELD: Locator = (By.NAME, 'psw')
     LOGIN_BUTTON: Locator = (By.XPATH, '//input[@value="Вход"]')
     LOGOUT_BUTTON: Locator = (By.XPATH, '//img[@title="Выход..."]')
@@ -18,20 +19,20 @@ class SqlCookieLoginPage(BasePage):
     def open(self, url: str) -> None:
         super().open(url)
 
-    @allure.step('Ввод логина {username}')
-    def enter_username(self, username: str) -> 'SqlCookieLoginPage':
-        self.send_keys_to_element(self.USERNAME_FIELD, username)
+    @allure.step('Ввод логина {login}')
+    def enter_login(self, login: str) -> 'SqlMainPage':
+        self.send_keys_to_element(self.LOGIN_FIELD, login)
 
         return self
 
     @allure.step('Ввод пароля {password}')
-    def enter_password(self, password: str) -> 'SqlCookieLoginPage':
+    def enter_password(self, password: str) -> 'SqlMainPage':
         self.send_keys_to_element(self.PASSWORD_FIELD, password)
 
         return self
 
     @allure.step('Нажатие на кнопку "Вход"')
-    def login(self) -> 'SqlCookieLoginPage':
+    def login(self) -> 'SqlMainPage':
         self.click_element(self.LOGIN_BUTTON)
 
         return self
@@ -44,7 +45,21 @@ class SqlCookieLoginPage(BasePage):
         return self.find_visible_element(username_locator).text.strip()
 
     @allure.step('Нажатие на кнопку выхода "замок"')
-    def logout(self) -> 'SqlCookieLoginPage':
+    def logout(self) -> 'SqlMainPage':
         self.click_element(self.LOGOUT_BUTTON)
 
         return self
+
+    @allure.step('Разфокусировка с поля ввода логина')
+    def remove_focus_from_login_field(self, element: WebElement) -> 'SqlMainPage':
+        self.remove_focus_from_element(element)
+
+        return self
+
+    @allure.step('Поиск поля ввода логина')
+    def find_login_field(self) -> WebElement:
+        return self.find_visible_element(self.LOGIN_FIELD)
+
+    @allure.step('Проверка активности поля ввода логина')
+    def is_login_field_active(self, element: WebElement) -> bool:
+        return self.element_is_active(element)

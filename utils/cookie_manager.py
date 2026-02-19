@@ -1,6 +1,7 @@
 import json
 import os
 from selenium.webdriver.remote.webdriver import WebDriver
+from typing import Any, Dict, List
 
 class CookieManager:
     @staticmethod
@@ -15,7 +16,7 @@ class CookieManager:
         driver.delete_all_cookies()
 
         with open(file_path, 'r') as file:
-            cookies = json.load(file)
+            cookies: List[Dict[str, Any]] = json.load(file)
 
             for cookie in cookies:
                 driver.add_cookie(cookie)

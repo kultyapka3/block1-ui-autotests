@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Any
 
 Locator = Tuple[By, str]
 
@@ -27,6 +27,7 @@ class BasePage:
             ec.presence_of_element_located(locator)
         )
 
+    @allure.step('Поиск видимых элементов {locator}')
     def wait_for_elements_to_be_present(self, locator: Locator, timeout: Optional[int] = None) -> list[WebElement]:
         timeout = timeout or self.default_timeout
 
@@ -37,12 +38,6 @@ class BasePage:
     @allure.step('Поиск элементов {locator}')
     def find_elements(self, locator: Locator) -> list[WebElement]:
         return self.driver.find_elements(*locator)
-
-    @allure.step('Прокручивание страницы до середины')
-    def scroll_page_to_middle(self) -> None:
-        self.driver.execute_script(
-            'window.scrollTo(0, document.body.scrollHeight / 2);'
-        )
 
     @allure.step('Поиск видимого элемента {locator}')
     def find_visible_element(self, locator: Locator, timeout: Optional[int] = None) -> WebElement:
@@ -82,13 +77,45 @@ class BasePage:
     def refresh_page(self) -> None:
         self.driver.refresh()
 
+    @allure.step('Прокручивание страницы до середины')
+    def scroll_page_to_middle(self) -> None:
+        self.driver.execute_script(
+            'window.scrollTo(0, document.body.scrollHeight / 2);'
+        )
+
+    @allure.step('Разфокусировка с элемента {element}')
+    def remove_focus_from_element(self, element: WebElement) -> None:
+        self.driver.execute_script('arguments[0].blur();', element)
+
+    @allure.step('Проверка активности элемента {element}')
+    def element_is_active(self, element: WebElement) -> bool:
+        return self.driver.execute_script(
+            'return document.activeElement === arguments[0];', element
+        )
+
+    @allure.step('Проверка наличия вертикального скролла')
+    def has_vertical_scroll(self) -> bool:
+        return self.driver.execute_script(
+            'return document.documentElement.scrollHeight > document.documentElement.clientHeight;'
+        )
+
+    @allure.step('Прокручивание страницы до конца')
+    def scroll_to_bottom(self) -> None:
+        self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+
+    @allure.step('Проверка достижения конца страницы')
+    def is_at_bottom(self) -> bool:
+        return self.driver.execute_script(
+            'return (window.innerHeight + window.scrollY) >= document.body.scrollHeight;'
+        )
+
     # Ленивая инициализация
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> Any:
         if name.endswith('_field'):
-            locator_name = name.replace('_field', '').upper() + '_LOCATOR'
+            locator_name: str = name.replace('_field', '').upper() + '_LOCATOR'
 
             if hasattr(self, locator_name):
-                locator = getattr(self, locator_name)
+                locator: Locator = getattr(self, locator_name)
 
                 if not hasattr(self, f'_{name}'):
                     setattr(self, f'_{name}', self.find_element(locator))

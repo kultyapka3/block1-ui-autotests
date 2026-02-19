@@ -19,8 +19,8 @@ def test_login_with_different_credentials(driver: WebDriver, test_data: LoginTes
     login_form_page.open(LOGIN_FORM_URL)
 
     login_form_page.enter_username_login(test_data.username_login) \
-        .enter_password(test_data.password) \
-        .enter_username(test_data.username)
+                   .enter_password(test_data.password) \
+                   .enter_username(test_data.username)
 
     login_button_state: bool = login_form_page.is_login_button_enabled()
     expected_login_button_state: bool = test_data.is_button_enabled

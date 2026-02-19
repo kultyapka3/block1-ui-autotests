@@ -5,13 +5,15 @@ MAIN_PAGE_URL: Final[str] = 'https://www.way2automation.com/'
 LIFETIME_MEMBERSHIP_URL: Final[str] = 'https://www.way2automation.com/lifetime-membership-club/'
 LOGIN_FORM_URL: Final[str] = 'https://www.way2automation.com/angularjs-protractor/registeration/#/login'
 REGISTRATION_FORM_URL: Final[str] = 'https://www.way2automation.com/angularjs-protractor/banking/#/login'
-SQL_COOKIE_LOGIN_URL: Final[str] = 'https://www.sql-ex.ru/'
-COOKIE_FILE_PATH: Final[str] = 'cookies/auth_cookies.json'
+SQL_MAIN_PAGE_URL: Final[str] = 'https://www.sql-ex.ru/'
+AUTH_COOKIE_FILE_PATH: Final[str] = 'cookies/auth_cookies.json'
 
 # Таймауты
 DEFAULT_TIMEOUT: Final[int] = 10
 
 # Тестовые данные
+CUSTOM_TEXT: Final[str] = 'automation'
+
 # Для формы авторизации
 class LoginTestData:
     USERNAME_LOGIN: Final[str] = 'angular'
