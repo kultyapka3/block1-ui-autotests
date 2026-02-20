@@ -12,6 +12,7 @@ import pytest
 @pytest.mark.ui
 @pytest.mark.parameterized
 @pytest.mark.successful
+@pytest.mark.U3
 @pytest.mark.parametrize('test_data', LOGIN_TEST_PARAMETERIZED_DATA, ids=[data.test_name for data in LOGIN_TEST_PARAMETERIZED_DATA])
 def test_login_with_different_credentials(login_form_page: LoginFormPage, test_data: LoginTestParameterizedData) -> None:
     login_form_page.enter_username_login(test_data.username_login) \

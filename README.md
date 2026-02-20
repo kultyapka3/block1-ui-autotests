@@ -26,8 +26,6 @@ project_root/
 ├── pytest.ini                        # Конфигурация pytest
 ├── conftest.py                       # Фикстуры pytest
 ├── data/                             # Папка с данными (конфигурации)
-├── .github/workflows/                # Папка для CI/CD (GitHub Actions)
-│   └── test.yml                      # Реализация CI/CD
 ├── pages/                            # Папка для POM
 │   ├── __init__.py
 ├── tests/                            # Папка с тестами

@@ -12,6 +12,7 @@ import pytest
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful
+@pytest.mark.U1
 def test_login_page_valid_credentials_login_success(login_form_page: LoginFormPage) -> None:
     login_form_page.enter_username_login(LoginTestData.USERNAME_LOGIN) \
                    .enter_password(LoginTestData.PASSWORD) \

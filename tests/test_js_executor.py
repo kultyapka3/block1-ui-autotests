@@ -1,5 +1,5 @@
 import allure
-from data.data_ui import CUSTOM_TEXT
+from data.data_ui import CUSTOM_TEXT, SQL_MAIN_PAGE_URL
 from pages.sql_main_page import SqlMainPage
 import pytest
 from selenium.webdriver.remote.webelement import WebElement
@@ -13,7 +13,9 @@ from selenium.webdriver.remote.webelement import WebElement
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful
-def test_login_page_valid_credentials_login_success(sql_main_page: SqlMainPage) -> None:
+@pytest.mark.U6
+def test_js_executor(sql_main_page: SqlMainPage) -> None:
+    sql_main_page.open(SQL_MAIN_PAGE_URL)
     sql_main_page.enter_login(CUSTOM_TEXT)
     login_field: WebElement = sql_main_page.find_login_field()
     sql_main_page.remove_focus_from_login_field(login_field)
