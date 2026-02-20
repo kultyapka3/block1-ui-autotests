@@ -42,3 +42,6 @@ dist/
 *.egg-info/
 *.egg
 *.whl
+
+data/data_for_login_with_cookies.py
+cookies
