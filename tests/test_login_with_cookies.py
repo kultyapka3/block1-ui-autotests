@@ -21,9 +21,8 @@ class TestLoginWithCookies:
     @pytest.mark.ui
     @pytest.mark.successful
     @pytest.mark.cookies
-    def test_login_with_cookies(self, driver: WebDriver, request: pytest.FixtureRequest) -> None:
+    def test_login_with_cookies(self, driver: WebDriver, sql_main_page: SqlMainPage, request: pytest.FixtureRequest) -> None:
         run_mode: str = self.get_run_mode(request)
-        sql_main_page: SqlMainPage = SqlMainPage(driver)
 
         with allure.step(f'Запуск в режиме: {run_mode}'):
             if run_mode == 'first':

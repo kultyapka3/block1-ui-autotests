@@ -21,9 +21,6 @@ class RegistrationFormPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def open(self, url: str) -> None:
-        super().open(url)
-
     @allure.step('Открытие формы регистрации "Sample Form"')
     def open_sample_form(self) -> 'RegistrationFormPage':
         self.click_element(self.SAMPLE_FORM_BUTTON)

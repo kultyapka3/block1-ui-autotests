@@ -18,9 +18,6 @@ class LoginFormPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def open(self, url: str) -> None:
-        super().open(url)
-
     @allure.step('Ввод логина {username_login}')
     def enter_username_login(self, username_login: str) -> 'LoginFormPage':
         self.send_keys_to_element(self.USERNAME_LOGIN_FIELD, username_login)

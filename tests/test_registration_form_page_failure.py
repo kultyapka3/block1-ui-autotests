@@ -1,10 +1,9 @@
 import allure
-from data.data_ui import RegistrationTestData, REGISTRATION_FORM_URL
+from data.data_ui import RegistrationTestData
 from pages.registration_form_page import RegistrationFormPage
 import pytest
 from typing import List
-from selenium.webdriver.remote.webdriver import WebDriver
-from utils.hobbie_len_calculator import get_longest_hobby
+from utils.hobby_len_calculator import get_longest_hobby
 
 @allure.suite('U1 test-cases')
 @allure.epic('Block1: UI Auto-tests')
@@ -15,10 +14,7 @@ from utils.hobbie_len_calculator import get_longest_hobby
 @pytest.mark.ui
 @pytest.mark.negative
 @pytest.mark.successful
-def test_registration_page_failure(driver: WebDriver) -> None:
-    registration_form_page: RegistrationFormPage = RegistrationFormPage(driver)
-    registration_form_page.open(REGISTRATION_FORM_URL)
-
+def test_registration_page_failure(registration_form_page: RegistrationFormPage) -> None:
     registration_form_page.open_sample_form() \
                           .enter_first_name(RegistrationTestData.FIRST_NAME) \
                           .enter_last_name(RegistrationTestData.LAST_NAME) \

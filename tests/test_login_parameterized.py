@@ -1,8 +1,7 @@
 import allure
-from data.data_ui import LOGIN_TEST_PARAMETERIZED_DATA, LoginTestParameterizedData, LOGIN_FORM_URL
+from data.data_ui import LOGIN_TEST_PARAMETERIZED_DATA, LoginTestParameterizedData
 from pages.login_form_page import LoginFormPage
 import pytest
-from selenium.webdriver.remote.webdriver import WebDriver
 
 @allure.suite('U3 test-cases')
 @allure.epic('Block1: UI Auto-tests')
@@ -14,10 +13,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @pytest.mark.parameterized
 @pytest.mark.successful
 @pytest.mark.parametrize('test_data', LOGIN_TEST_PARAMETERIZED_DATA, ids=[data.test_name for data in LOGIN_TEST_PARAMETERIZED_DATA])
-def test_login_with_different_credentials(driver: WebDriver, test_data: LoginTestParameterizedData) -> None:
-    login_form_page: LoginFormPage = LoginFormPage(driver)
-    login_form_page.open(LOGIN_FORM_URL)
-
+def test_login_with_different_credentials(login_form_page: LoginFormPage, test_data: LoginTestParameterizedData) -> None:
     login_form_page.enter_username_login(test_data.username_login) \
                    .enter_password(test_data.password) \
                    .enter_username(test_data.username)

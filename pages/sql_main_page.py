@@ -16,9 +16,6 @@ class SqlMainPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def open(self, url: str) -> None:
-        super().open(url)
-
     @allure.step('Ввод логина {login}')
     def enter_login(self, login: str) -> 'SqlMainPage':
         self.send_keys_to_element(self.LOGIN_FIELD, login)

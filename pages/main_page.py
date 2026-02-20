@@ -19,9 +19,6 @@ class MainPage(BasePage):
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
 
-    def open(self, url: str) -> None:
-        super().open(url)
-
     @allure.step('Проверка видимости хедера')
     def is_header_visible(self) -> bool:
         return self.find_visible_element(self.HEADER_CONTAINER).is_displayed()

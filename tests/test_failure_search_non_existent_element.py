@@ -1,8 +1,7 @@
 import allure
-from data.data_ui import LoginTestData, LOGIN_FORM_URL
+from data.data_ui import LoginTestData
 from pages.login_form_page import LoginFormPage
 import pytest
-from selenium.webdriver.remote.webdriver import WebDriver
 
 @allure.suite('U4 test-cases')
 @allure.epic('Block1: UI Auto-tests')
@@ -12,10 +11,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @allure.title('TC08: Падающий тест авторизации с отсутствующим элементом страницы')
 @pytest.mark.ui
 @pytest.mark.failing
-def test_login_page_failure_search_non_existent_element(driver: WebDriver) -> None:
-    login_form_page: LoginFormPage = LoginFormPage(driver)
-    login_form_page.open(LOGIN_FORM_URL)
-
+def test_login_page_failure_search_non_existent_element(login_form_page: LoginFormPage) -> None:
     login_form_page.enter_username_login(LoginTestData.USERNAME_LOGIN) \
                    .enter_password(LoginTestData.PASSWORD) \
                    .enter_username(LoginTestData.USERNAME) \

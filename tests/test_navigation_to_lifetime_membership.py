@@ -1,9 +1,7 @@
 import allure
-from data.data_ui import MAIN_PAGE_URL, LIFETIME_MEMBERSHIP_URL
-from pages.main_page import MainPage
+from data.data_ui import LIFETIME_MEMBERSHIP_URL
 from pages.lifetime_membership_page import LifetimeMembershipPage
 import pytest
-from selenium.webdriver.remote.webdriver import WebDriver
 
 @allure.suite('U1 test-cases')
 @allure.epic('Block1: UI Auto-tests')
@@ -14,12 +12,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful
-def test_main_page_navigation_to_lifetime_membership(driver: WebDriver) -> None:
-    main_page: MainPage = MainPage(driver)
-    main_page.open(MAIN_PAGE_URL)
-
-    lifetime_membership_page: LifetimeMembershipPage = main_page.navigate_to_lifetime_membership()
-
+def test_main_page_navigation_to_lifetime_membership(lifetime_membership_page: LifetimeMembershipPage) -> None:
     page_title: str = lifetime_membership_page.get_page_title()
 
     with allure.step(f'Проверка заголовка страницы {page_title}'):

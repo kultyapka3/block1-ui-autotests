@@ -1,8 +1,6 @@
 import allure
-from data import data_ui
 from pages.main_page import MainPage
 import pytest
-from selenium.webdriver.remote.webdriver import WebDriver
 
 @allure.suite('U1 test-cases')
 @allure.epic('Block1: UI Auto-tests')
@@ -13,10 +11,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful
-def test_main_page_header_contact_info_is_visible(driver: WebDriver) -> None:
-    main_page: MainPage = MainPage(driver)
-    main_page.open(data_ui.MAIN_PAGE_URL)
-
+def test_main_page_header_contact_info_is_visible(main_page: MainPage) -> None:
     assert main_page.is_header_visible(), \
         'Хедер с контактной информацией не отображается'
 

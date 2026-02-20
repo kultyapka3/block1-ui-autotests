@@ -1,7 +1,13 @@
 import allure
+from data.data_ui import MAIN_PAGE_URL, LOGIN_FORM_URL, REGISTRATION_FORM_URL
 from datetime import datetime
 import logging
 import os
+from pages.main_page import MainPage
+from pages.lifetime_membership_page import LifetimeMembershipPage
+from pages.login_form_page import LoginFormPage
+from pages.registration_form_page import RegistrationFormPage
+from pages.sql_main_page import SqlMainPage
 import pytest
 from pytest import Session
 from selenium import webdriver
@@ -41,6 +47,38 @@ def driver() -> Generator[WebDriver, None, None]:
 
     yield driver
     driver.quit()
+
+# Фикстуры для создания страниц
+@pytest.fixture
+def main_page(driver: WebDriver) -> MainPage:
+    page: MainPage = MainPage(driver)
+    page.open(MAIN_PAGE_URL)
+
+    return page
+
+@pytest.fixture
+def lifetime_membership_page(main_page: MainPage) -> LifetimeMembershipPage:
+    return main_page.navigate_to_lifetime_membership()
+
+@pytest.fixture
+def login_form_page(driver: WebDriver) -> LoginFormPage:
+    page: LoginFormPage = LoginFormPage(driver)
+    page.open(LOGIN_FORM_URL)
+
+    return page
+
+@pytest.fixture
+def registration_form_page(driver: WebDriver) -> RegistrationFormPage:
+    page: RegistrationFormPage = RegistrationFormPage(driver)
+    page.open(REGISTRATION_FORM_URL)
+
+    return page
+
+@pytest.fixture
+def sql_main_page(driver: WebDriver) -> SqlMainPage:
+    page: SqlMainPage = SqlMainPage(driver)
+
+    return page
 
 # Хук для добавления скриншотов в отчеты Allure
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
