@@ -11,6 +11,7 @@ import pytest
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful
+@pytest.mark.U1
 def test_main_page_navigation_menu_visibility_after_scroll(main_page: MainPage) -> None:
     assert main_page.is_navigation_sticky(), \
         'Меню навигации не фиксируется при прокрутке страницы'

@@ -14,6 +14,7 @@ from utils.hobby_len_calculator import get_longest_hobby
 @pytest.mark.ui
 @pytest.mark.negative
 @pytest.mark.successful
+@pytest.mark.U1
 def test_registration_page_failure(registration_form_page: RegistrationFormPage) -> None:
     registration_form_page.open_sample_form() \
                           .enter_first_name(RegistrationTestData.FIRST_NAME) \

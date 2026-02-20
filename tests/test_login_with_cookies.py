@@ -14,13 +14,14 @@ from utils.cookie_manager import CookieManager
 class TestLoginWithCookies:
     # Получение режима запуска теста
     def get_run_mode(self, request: pytest.FixtureRequest) -> str:
-        return request.config.getoption('--run-mode')
+        return request.config.getoption('--run-mode-cookies')
 
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title('TC08: Авторизация с использованием cookies')
     @pytest.mark.ui
     @pytest.mark.successful
     @pytest.mark.cookies
+    @pytest.mark.U5
     def test_login_with_cookies(self, driver: WebDriver, sql_main_page: SqlMainPage, request: pytest.FixtureRequest) -> None:
         run_mode: str = self.get_run_mode(request)
 
@@ -55,7 +56,7 @@ class TestLoginWithCookies:
             if not os.path.exists(AUTH_COOKIE_FILE_PATH):
                 pytest.skip(
                     'Файл с cookies не найден. Сначала запустите тест в режиме first: '
-                    'pytest --run-mode=first tests/test_login_with_cookies.py'
+                    'pytest --run-mode-cookies=first tests/test_login_with_cookies.py'
                 )
 
         sql_main_page.open(SQL_MAIN_PAGE_URL)

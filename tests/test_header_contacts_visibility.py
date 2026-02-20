@@ -11,6 +11,7 @@ import pytest
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful
+@pytest.mark.U1
 def test_main_page_header_contact_info_is_visible(main_page: MainPage) -> None:
     assert main_page.is_header_visible(), \
         'Хедер с контактной информацией не отображается'

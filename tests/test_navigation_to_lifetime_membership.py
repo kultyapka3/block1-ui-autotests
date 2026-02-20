@@ -12,6 +12,7 @@ import pytest
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful
+@pytest.mark.U1
 def test_main_page_navigation_to_lifetime_membership(lifetime_membership_page: LifetimeMembershipPage) -> None:
     page_title: str = lifetime_membership_page.get_page_title()
 
