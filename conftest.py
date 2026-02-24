@@ -149,4 +149,4 @@ def pytest_sessionfinish(session: Session) -> None:
         return
 
     allure_results_dir = session.config.getoption('--alluredir')
-    # subprocess.Popen(['allure.bat', 'serve', allure_results_dir], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.Popen(['allure.bat', 'serve', allure_results_dir], stdout=subprocess.PIPE, stderr=subprocess.PIPE)

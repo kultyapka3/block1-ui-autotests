@@ -79,12 +79,14 @@ class DriverFactory:
 
         elif browser_name == 'ie':
             options = IeOptions()
-            options.page_load_strategy = 'normal'
+            options.page_load_strategy = page_load_strategy
 
             options.ignore_protected_mode_settings = True
             options.ignore_zoom_level = True
             options.require_window_focus = False
             options.ensure_clean_session = True
+            options.native_events = True
+            options.persistent_hover = True
 
             if run_mode == 'local':
                 return webdriver.Ie(options=options)

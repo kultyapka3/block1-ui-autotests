@@ -79,9 +79,8 @@ class BasePage:
 
     @allure.step('Прокручивание страницы до середины')
     def scroll_page_to_middle(self) -> None:
-        self.driver.execute_script(
-            'window.scrollTo(0, document.body.scrollHeight / 2);'
-        )
+        self.wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        self.driver.execute_script('window.scrollTo(0, document.documentElement.scrollHeight / 2);')
 
     @allure.step('Разфокусировка с элемента {element}')
     def remove_focus_from_element(self, element: WebElement) -> None:
@@ -101,12 +100,13 @@ class BasePage:
 
     @allure.step('Прокручивание страницы до конца')
     def scroll_to_bottom(self) -> None:
-        self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+        self.wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        self.driver.execute_script('window.scrollTo(0, document.documentElement.scrollHeight);')
 
     @allure.step('Проверка достижения конца страницы')
     def is_at_bottom(self) -> bool:
         return self.driver.execute_script(
-            'return (window.innerHeight + window.scrollY) >= document.body.scrollHeight;'
+            'return (document.documentElement.scrollTop + document.documentElement.clientHeight) >= (document.documentElement.scrollHeight - 5);'
         )
 
     # Ленивая инициализация
