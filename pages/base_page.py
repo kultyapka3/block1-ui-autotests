@@ -57,12 +57,12 @@ class BasePage:
 
     @allure.step('Клик по элементу {locator}')
     def click_element(self, locator: Locator) -> None:
-        element = self.find_clickable_element(locator)
+        element: WebElement = self.find_clickable_element(locator)
         element.click()
 
     @allure.step('Ввод текста {text} в элемент {locator}')
     def send_keys_to_element(self, locator: Locator, text: str) -> None:
-        element = self.find_element(locator)
+        element: WebElement = self.find_element(locator)
 
         if element.get_attribute('value'):
             element.clear()
@@ -108,6 +108,45 @@ class BasePage:
         return self.driver.execute_script(
             'return (document.documentElement.scrollTop + document.documentElement.clientHeight) >= (document.documentElement.scrollHeight - 5);'
         )
+
+    @allure.step('Переключение на новую вкладку')
+    def switch_to_new_tab(self, original_tab: str, timeout: Optional[int] = None) -> str:
+        timeout = timeout or self.default_timeout
+        current_handles = self.driver.window_handles
+
+        if len(current_handles) > 1:
+            for window_handle in current_handles:
+                if window_handle != original_tab:
+                    self.driver.switch_to.window(window_handle)
+
+                    return window_handle
+
+        raise Exception(f'Не удалось найти новую вкладку за {timeout} секунд')
+
+    @allure.step('Возврат к исходной вкладке {original_tab}')
+    def switch_to_original_tab(self, original_tab: str) -> 'BasePage':
+        self.driver.switch_to.window(original_tab)
+
+        return self
+
+    @allure.step('Закрытие всех вкладок, кроме исходной')
+    def close_all_tabs_except_original(self, original_tab: str) -> 'BasePage':
+        all_windows = self.driver.window_handles
+
+        for window_handle in all_windows:
+            if window_handle != original_tab:
+                self.driver.switch_to.window(window_handle)
+                self.driver.close()
+
+        return self
+
+    @allure.step('Получение количества открытых вкладок')
+    def get_tab_count(self) -> int:
+        return len(self.driver.window_handles)
+
+    @allure.step('Получение дескриптора текущей вкладки')
+    def get_current_window_handle(self) -> str:
+        return self.driver.current_window_handle
 
     # Ленивая инициализация
     def __getattr__(self, name: str) -> Any:

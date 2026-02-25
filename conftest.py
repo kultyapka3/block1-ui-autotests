@@ -1,5 +1,5 @@
 import allure
-from data.data_ui import MAIN_PAGE_URL, LOGIN_FORM_URL, REGISTRATION_FORM_URL, DRAG_N_DROP_URL
+from data.data_ui import MAIN_PAGE_URL, LOGIN_FORM_URL, REGISTRATION_FORM_URL, DRAG_N_DROP_URL, FRAMES_AND_WINDOWS_URL
 from datetime import datetime
 import logging
 import os
@@ -9,6 +9,7 @@ from pages.login_form_page import LoginFormPage
 from pages.registration_form_page import RegistrationFormPage
 from pages.sql_main_page import SqlMainPage
 from pages.drag_n_drop_page import DragNDropPage
+from pages.frames_and_windows_page import FramesAndWindowsPage
 import pytest
 from pytest import Session
 from selenium.webdriver.chrome.options import Options
@@ -88,6 +89,13 @@ def sql_main_page(driver: WebDriver) -> SqlMainPage:
 def drag_n_drop_page(driver: WebDriver) -> DragNDropPage:
     page: DragNDropPage = DragNDropPage(driver)
     page.open(DRAG_N_DROP_URL)
+
+    return page
+
+@pytest.fixture
+def frames_and_windows_page(driver: WebDriver) -> FramesAndWindowsPage:
+    page: FramesAndWindowsPage = FramesAndWindowsPage(driver)
+    page.open(FRAMES_AND_WINDOWS_URL)
 
     return page
 

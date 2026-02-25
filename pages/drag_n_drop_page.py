@@ -11,7 +11,7 @@ class DragNDropPage(BasePage):
     # Локаторы
     IFRAME_LOCATOR: Locator = (By.CSS_SELECTOR, 'div.freme_box > iframe.demo-frame')
     DRAGGABLE_ELEMENT_LOCATOR: Locator = (By.ID, 'draggable')
-    DROPPABLE_ELEMENT: Locator = (By.ID, 'droppable')
+    DROPPABLE_ELEMENT_LOCATOR: Locator = (By.ID, 'droppable')
     DROPPABLE_TEXT: Locator = (By.CSS_SELECTOR, '#droppable p')
 
     def __init__(self, driver):
@@ -33,7 +33,7 @@ class DragNDropPage(BasePage):
     @allure.step('Перетаскивание элемента')
     def drag_and_drop(self) -> 'DragNDropPage':
         draggable: WebElement = self.find_clickable_element(self.DRAGGABLE_ELEMENT_LOCATOR)
-        droppable: WebElement = self.find_clickable_element(self.DROPPABLE_ELEMENT)
+        droppable: WebElement = self.find_clickable_element(self.DROPPABLE_ELEMENT_LOCATOR)
 
         ActionChains(self.driver) \
             .drag_and_drop(draggable, droppable) \

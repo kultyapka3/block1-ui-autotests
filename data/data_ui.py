@@ -8,6 +8,7 @@ REGISTRATION_FORM_URL: Final[str] = 'https://www.way2automation.com/angularjs-pr
 SQL_MAIN_PAGE_URL: Final[str] = 'https://www.sql-ex.ru/'
 AUTH_COOKIE_FILE_PATH: Final[str] = 'cookies/auth_cookies.json'
 DRAG_N_DROP_URL: Final[str] = 'http://way2automation.com/way2auto_jquery/droppable.php'
+FRAMES_AND_WINDOWS_URL: Final[str] = 'http://way2automation.com/way2auto_jquery/frames-and-windows.php'
 
 # Таймауты
 DEFAULT_TIMEOUT: Final[int] = 10
