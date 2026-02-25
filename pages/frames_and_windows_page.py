@@ -8,7 +8,7 @@ Locator = Tuple[By, str]
 
 class FramesAndWindowsPage(BasePage):
     # Локаторы
-    IFRAME_LOCATOR: Locator = (By.CSS_SELECTOR, 'div.freme_box > iframe')
+    IFRAME_LOCATOR: Locator = (By.XPATH, '//iframe[contains(@src, "frames-windows/defult1.html")]')
     NEW_TAB_LINK: Locator = (By.LINK_TEXT, 'New Browser Tab')
 
     def __init__(self, driver):

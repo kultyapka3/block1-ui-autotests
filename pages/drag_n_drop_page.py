@@ -9,7 +9,7 @@ Locator = Tuple[By, str]
 
 class DragNDropPage(BasePage):
     # Локаторы
-    IFRAME_LOCATOR: Locator = (By.CSS_SELECTOR, 'div.freme_box > iframe.demo-frame')
+    IFRAME_LOCATOR: Locator = (By.XPATH, '//iframe[contains(@src, "droppable/default.html")]')
     DRAGGABLE_ELEMENT_LOCATOR: Locator = (By.ID, 'draggable')
     DROPPABLE_ELEMENT_LOCATOR: Locator = (By.ID, 'droppable')
     DROPPABLE_TEXT: Locator = (By.CSS_SELECTOR, '#droppable p')
