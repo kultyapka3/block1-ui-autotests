@@ -7,7 +7,7 @@ import pytest
 @allure.feature('Frames and Windows Page')
 @allure.story('Frames and Windows Page: Tabs')
 @allure.severity(allure.severity_level.CRITICAL)
-@allure.title('TC11: Проверка работы с несколькими вкладками')
+@allure.title('TC12: Проверка работы с несколькими вкладками')
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful

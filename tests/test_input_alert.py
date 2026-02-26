@@ -8,7 +8,7 @@ import pytest
 @allure.feature('Alert Page')
 @allure.story('Alert Page: Input Alert')
 @allure.severity(allure.severity_level.CRITICAL)
-@allure.title('TC12: Проверка работы с Alert')
+@allure.title('TC13: Проверка работы с Alert')
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful

@@ -17,7 +17,7 @@ class TestLoginWithCookies:
         return request.config.getoption('--run-mode-cookies')
 
     @allure.severity(allure.severity_level.CRITICAL)
-    @allure.title('TC08: Авторизация с использованием cookies')
+    @allure.title('TC09: Авторизация с использованием cookies')
     @pytest.mark.ui
     @pytest.mark.successful
     @pytest.mark.cookies

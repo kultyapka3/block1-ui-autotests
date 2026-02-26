@@ -9,7 +9,7 @@ from selenium.webdriver.remote.webelement import WebElement
 @allure.feature('SQL Main Page')
 @allure.story('SQL Main Page: JS Executor')
 @allure.severity(allure.severity_level.CRITICAL)
-@allure.title('TC09: Проверка работы JavaScriptExecutor')
+@allure.title('TC10: Проверка работы JavaScriptExecutor')
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful

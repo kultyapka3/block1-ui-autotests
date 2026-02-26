@@ -9,7 +9,7 @@ from utils.url_generator_for_basic_auth import generate_url
 @allure.feature('Basic Auth Page')
 @allure.story('Basic Auth Page: Auth')
 @allure.severity(allure.severity_level.CRITICAL)
-@allure.title('TC13: Проверка работы с Basic Auth')
+@allure.title('TC14: Проверка работы с Basic Auth')
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful

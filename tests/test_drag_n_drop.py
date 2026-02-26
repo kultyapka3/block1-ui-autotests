@@ -7,7 +7,7 @@ import pytest
 @allure.feature('Drag N Drop Page')
 @allure.story('Drag N Drop Page: Element dropping')
 @allure.severity(allure.severity_level.CRITICAL)
-@allure.title('TC10: Проверка работы drag and drop')
+@allure.title('TC11: Проверка работы drag and drop')
 @pytest.mark.ui
 @pytest.mark.positive
 @pytest.mark.successful
