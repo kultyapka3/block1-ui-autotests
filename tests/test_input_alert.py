@@ -3,8 +3,6 @@ from data.data_ui import CUSTOM_ALERT_TEXT
 from pages.alert_page import AlertPage
 import pytest
 
-from time import sleep
-
 @allure.suite('U12 test-cases')
 @allure.epic('Block1: UI Auto-tests')
 @allure.feature('Alert Page')
