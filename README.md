@@ -8,11 +8,14 @@
 
 *   **Язык программирования:** Python 3.10+
 *   **Фреймворк для UI-тестов:** Selenium WebDriver
-*   **Браузер (UI):** Chrome (управление драйвером через `webdriver-manager`)
+*   **Браузеры (UI):** Chrome, Firefox, Edge, IE
 *   **Тестовый фреймворк:** pytest
 *   **Сборка зависимостей:** pip (файл `requirements.txt`)
 *   **Отчеты:** Allure
-*   **CI/CD:** GitHub Actions
+*   **Параллельный запуск:** pytest-xdist
+*   **Средства для распределенного запуска:** Selenium Grid (Hub и Nodes)
+*   **Скрипты:** Batch-файлы (`.bat`) для запуска Selenium Grid (`grid/selenium_grid.bat`), выполнения тестов через 
+    Grid (`test_with_grid.bat`) и перезапуска упавших тестов (`run_failed_tests.bat`).
 
 ---
 
@@ -20,21 +23,52 @@
 
 ```
 project_root/
-├── README.md                         # Этот файл
-├── .gitignore                        # Файл управления Git
-├── requirements.txt                  # Список зависимостей Python
-├── pytest.ini                        # Конфигурация pytest
-├── conftest.py                       # Фикстуры pytest
-├── data/                             # Папка с данными (конфигурации)
-├── .github/workflows/                # Папка для CI/CD (GitHub Actions)
-│   └── test.yml                      # Реализация CI/CD
-├── pages/                            # Папка для POM
+├── README.md                                        # Этот файл
+├── .gitignore                                       # Файл управления Git
+├── requirements.txt                                 # Список зависимостей Python
+├── pytest.ini                                       # Конфигурация pytest
+├── conftest.py                                      # Фикстуры pytest
+├── test_with_grid.bat                               # Скрипт для запуска тестов через Grid
+├── run_failed_tests.bat                             # Скрипт для перезапуска упавших тестов
+├── grid/                                            # Папка для Selenium Grid
+│   ├── selenium_grid.bat                            # Скрипт для запуска Selenium Grid
+│   └── selenium-server-4.40.0.jar                   # Selenium Grid
+├── data/                                            # Папка с данными (конфигурации)
+│   └── data_ui.py                                   # Файл с данными
+├── pages/                                           # Папка для POM
 │   ├── __init__.py
-├── tests/                            # Папка с тестами
+│   ├── base_page.py                                 # Базовый класс для страниц
+│   ├── main_page.py                                 # Класс для https://www.way2automation.com/ страницы
+│   ├── alert_page.py                                # http://way2automation.com/way2auto_jquery/alert.php страница
+│   ├── basic_auth_page.py                           # https://www.httpwatch.com/httpgallery/authentication/#showExample10
+│   ├── drag_n_drop_page.py                          # http://way2automation.com/way2auto_jquery/droppable.php
+│   ├── frames_and_windows_page.py                   # http://way2automation.com/way2auto_jquery/frames-and-windows.php
+│   ├── lifetime_membership_page.py                  # https://www.way2automation.com/lifetime-membership-club/
+│   ├── login_form_page.py                           # https://www.way2automation.com/angularjs-protractor/registeration/#/login
+│   ├── registration_form_page.py                    # https://www.way2automation.com/angularjs-protractor/banking/#/login
+│   └── sql_main_page.py                             # https://www.sql-ex.ru/
+├── tests/                                           # Папка с тестами
 │   ├── __init__.py            
-└── utils/                            # Папка для вспомогательных функций
+│   ├── test_header_contacts_visibility.py           # ТС01
+│   ├── test_navigation_visibility_after_scroll.py   # ТС02
+│   ├── test_navigation_to_lifetime_membership.py    # ТС03
+│   ├── test_login_form_page_success.py              # ТС04
+│   ├── test_registration_form_page_failure.py       # ТС05
+│   ├── test_login_parameterized.py                  # ТС06
+│   ├── test_failure_login_without_username.py       # ТС07
+│   ├── test_failure_search_non_existent_element.py  # ТС08
+│   ├── test_login_with_cookies.py                   # ТС09
+│   ├── test_js_executor.py                          # ТС10
+│   ├── test_drag_n_drop.py                          # ТС11
+│   ├── test_tabs.py                                 # ТС12
+│   ├── test_input_alert.py                          # ТС13
+│   └── test_basic_auth.py                           # ТС14
+└── utils/                                           # Папка для вспомогательных функций
     ├── __init__.py
-
+    ├── cookie_manager.py                            # Сохранение и загрузка куков
+    ├── driver_factory.py                            # Фабрика драйверов
+    ├── hobby_len_calculator.py                      # Вычисление длины строки хобби
+    └── url_generator_for_basic_auth.py              # Генератор URL для Basic Auth
 ```
 
 ---
@@ -82,10 +116,10 @@ pip install -r requirements.txt
     pytest -v
     ```
 
-- Параллельный запуск тестов:
+- Параллельный запуск U1 тестов:
 
     ```bash
-    pytest -m ui -n 5
+    pytest -m U1 -n 5
     ```
 
 ---
@@ -319,7 +353,7 @@ pip install -r requirements.txt
 
 ## U5. Тест-кейс для демонстрации работы с Cookies
 
-### Тест-кейс №08. Авторизация на сайте, использующая Cookies
+### Тест-кейс №09. Авторизация на сайте, использующая Cookies
 
 - **Предусловие**:
   1. Открыть браузер
@@ -354,7 +388,7 @@ pip install -r requirements.txt
 
 ## U6. Тест-кейс для демонстрации работы JavaScriptExecutor
 
-### Тест-кейс №09. Проверка работы JavaScriptExecutor
+### Тест-кейс №10. Проверка работы JavaScriptExecutor
 
 - **Предусловие**:
   1. Открыть браузер
@@ -374,3 +408,99 @@ pip install -r requirements.txt
 
 - **Тестовые данные**:
   1. `Логин` — `automation`
+
+---
+
+## U10. Тест-кейс для демонстрации работы Drag n Drop (IFrame)
+
+### Тест-кейс №11. Проверка работы drag and drop
+
+- **Предусловие**:
+  1. Открыть браузер
+  2. Перейти по ссылке: http://way2automation.com/way2auto_jquery/droppable.php
+
+- **Шаги**:
+  1. Переключиться в IFrame
+  2. Перетащить элемент `Drag me to my target` в элемент `Drop here`
+
+- **Ожидаемый результат**:
+  1. Текст в принимающем элементе изменился на `Dropped!`
+
+- **Постусловие**:
+  1. Переключиться из IFrame
+  2. Закрыть браузер
+
+---
+
+## U11. Тест-кейс для демонстрации работы с вкладками
+
+### Тест-кейс №12. Проверка работы с несколькими вкладками
+
+- **Предусловие**:
+  1. Открыть браузер
+  2. Перейти по ссылке: http://way2automation.com/way2auto_jquery/frames-and-windows.php
+
+- **Шаги**:
+  1. Переключиться в IFrame
+  2. Нажать на ссылку `New Browser Tab`
+  3. Переключиться на новую вкладку
+  4. Нажать на ссылку `New Browser Tab`
+
+- **Ожидаемый результат**:
+  1. Открыты три вкладки
+
+- **Постусловие**:
+  1. Закрыть все вкладки кроме исходной
+  2. Переключиться из IFrame
+  3. Закрыть браузер
+
+---
+
+## U12. Тест-кейс для демонстрации работы с Alert
+
+### Тест-кейс №13. Проверка работы с Alert
+
+- **Предусловие**:
+  1. Открыть браузер
+  2. Перейти по ссылке: http://way2automation.com/way2auto_jquery/alert.php
+
+- **Шаги**:
+  1. Выбрать `INPUT ALERT`
+  2. Переключиться в IFrame
+  3. Нажать на кнопку `Click the button to demonstrate the Input box.`
+  4. Ввести в появившийся алерт произвольное значение (`Mr. Fish`)
+  5. Нажать в `OK` в алерте
+
+- **Ожидаемый результат**:
+  1. Появился текст `Hello Mr. Fish! How are you today?`
+
+- **Постусловие**:
+  1. Переключиться из IFrame
+  2. Закрыть браузер
+
+- **Тестовые данные**:
+  1. `Текст для алерта` — `Mr. Fish`
+
+---
+
+## U13. Тест-кейс для демонстрации работы с Basic Auth
+
+### Тест-кейс №14. Проверка работы с Basic Auth
+
+- **Предусловие**:
+  1. Открыть браузер
+
+- **Шаги**:
+  1. Сформировать ссылку с валидными данными (`httpwatch` и `httpwatch`):
+     - `http://{Логин}:{Пароль}@www.httpwatch.com/httpgallery/authentication/#showExample10`
+  2. Нажать на кнопку `DISPLAY IMAGE`
+
+- **Ожидаемый результат**:
+  1. Появляется изображение авторизации (авторизация пройдена)
+
+- **Постусловие**:
+  1. Закрыть браузер
+
+- **Тестовые данные**:
+  1. `Логин` — `httpwatch`
+  2. `Пароль` — `httpwatch`

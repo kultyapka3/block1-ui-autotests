@@ -1,5 +1,5 @@
 import allure
-from data.data_ui import MAIN_PAGE_URL, LOGIN_FORM_URL, REGISTRATION_FORM_URL
+from data.data_ui import MAIN_PAGE_URL, LOGIN_FORM_URL, REGISTRATION_FORM_URL, DRAG_N_DROP_URL, FRAMES_AND_WINDOWS_URL, ALERT_PAGE_URL, AUTH_PAGE_URL
 from datetime import datetime
 import logging
 import os
@@ -8,15 +8,17 @@ from pages.lifetime_membership_page import LifetimeMembershipPage
 from pages.login_form_page import LoginFormPage
 from pages.registration_form_page import RegistrationFormPage
 from pages.sql_main_page import SqlMainPage
+from pages.drag_n_drop_page import DragNDropPage
+from pages.frames_and_windows_page import FramesAndWindowsPage
+from pages.alert_page import AlertPage
+from pages.basic_auth_page import BasicAuthPage
 import pytest
 from pytest import Session
-from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.remote.webdriver import WebDriver
 import subprocess
 from typing import Generator, Any
-from webdriver_manager.chrome import ChromeDriverManager
+from utils.driver_factory import DriverFactory
 
 # Настройка логирования
 def pytest_configure() -> None:
@@ -30,20 +32,25 @@ def pytest_configure() -> None:
 os.environ['WDM_GLOBAL_CACHE'] = 'true'
 os.environ['WDM_LOCAL'] = os.path.join(os.getcwd(), '.wdm_cache')
 
-# Фикстура для предварительной загрузки драйвера
-@pytest.fixture(scope='session', autouse=True)
-def setup_driver_cache() -> Generator[None, None, None]:
-    ChromeDriverManager().install()
-    yield
-
 # Фикстура для создания драйвера
 @pytest.fixture(scope='function')
-def driver() -> Generator[WebDriver, None, None]:
+def driver(request: pytest.FixtureRequest) -> Generator[WebDriver, None, None]:
+    browser_name = request.config.getoption('--browser')
+    run_mode = request.config.getoption('--run-mode')
+    grid_url = request.config.getoption('--grid-url')
+    headless = not request.config.getoption('--no-headless')
+
     options: Options = Options()
     options.page_load_strategy = 'eager'
 
-    service: Service = Service(ChromeDriverManager().install())
-    driver: WebDriver = webdriver.Chrome(service=service, options=options)
+    driver = DriverFactory.create_driver(
+        browser_name=browser_name,
+        run_mode=run_mode,
+        grid_url=grid_url,
+        headless=headless
+    )
+
+    driver.set_window_size(1000, 1000)
 
     yield driver
     driver.quit()
@@ -80,6 +87,33 @@ def sql_main_page(driver: WebDriver) -> SqlMainPage:
 
     return page
 
+@pytest.fixture
+def drag_n_drop_page(driver: WebDriver) -> DragNDropPage:
+    page: DragNDropPage = DragNDropPage(driver)
+    page.open(DRAG_N_DROP_URL)
+
+    return page
+
+@pytest.fixture
+def frames_and_windows_page(driver: WebDriver) -> FramesAndWindowsPage:
+    page: FramesAndWindowsPage = FramesAndWindowsPage(driver)
+    page.open(FRAMES_AND_WINDOWS_URL)
+
+    return page
+
+@pytest.fixture
+def alert_page(driver: WebDriver) -> AlertPage:
+    page: AlertPage = AlertPage(driver)
+    page.open(ALERT_PAGE_URL)
+
+    return page
+
+@pytest.fixture
+def basic_auth_page(driver: WebDriver) -> BasicAuthPage:
+    page: BasicAuthPage = BasicAuthPage(driver)
+
+    return page
+
 # Хук для добавления скриншотов в отчеты Allure
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item: Any) -> Generator[None, Any, None]:
@@ -99,13 +133,39 @@ def pytest_runtest_makereport(item: Any) -> Generator[None, Any, None]:
                 attachment_type=allure.attachment_type.PNG
             )
 
-# Добваление кастомной опции
+# Добавление кастомных опций
 def pytest_addoption(parser: Any) -> None:
+    parser.addoption(
+        '--browser',
+        action='store',
+        default='chrome',
+        choices=['chrome', 'firefox', 'edge', 'ie'],
+        help='Браузер для запуска тестов: chrome, firefox, edge или ie'
+    )
     parser.addoption(
         '--run-mode',
         action='store',
+        default='local',
+        choices=['local', 'grid'],
+        help='Режим запуска: local (локально) или grid (через Selenium Grid)'
+    )
+    parser.addoption(
+        '--grid-url',
+        action='store',
+        default='http://localhost:4444',
+        help='URL Selenium Grid Hub'
+    )
+    parser.addoption(
+        '--no-headless',
+        action='store_true',
+        default=False,
+        help='Запускать браузер в видимом режиме: False (без окна) или True (в окне)'
+    )
+    parser.addoption(
+        '--run-mode-cookies',
+        action='store',
         default='first',
-        help='Режим запуска: first (обычная авторизация) или second (авторизация через cookies)'
+        help='Режим запуска тестов с cookies: first (получение куки) и second (загрузка куки)'
     )
 
 # Хук для генерации отчетов Allure
@@ -120,4 +180,4 @@ def pytest_sessionfinish(session: Session) -> None:
         return
 
     allure_results_dir = session.config.getoption('--alluredir')
-    # subprocess.Popen(['allure.bat', 'serve', allure_results_dir], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.Popen(['allure.bat', 'serve', allure_results_dir], stdout=subprocess.PIPE, stderr=subprocess.PIPE)

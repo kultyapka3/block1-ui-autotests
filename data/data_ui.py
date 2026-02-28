@@ -7,12 +7,17 @@ LOGIN_FORM_URL: Final[str] = 'https://www.way2automation.com/angularjs-protracto
 REGISTRATION_FORM_URL: Final[str] = 'https://www.way2automation.com/angularjs-protractor/banking/#/login'
 SQL_MAIN_PAGE_URL: Final[str] = 'https://www.sql-ex.ru/'
 AUTH_COOKIE_FILE_PATH: Final[str] = 'cookies/auth_cookies.json'
+DRAG_N_DROP_URL: Final[str] = 'http://way2automation.com/way2auto_jquery/droppable.php'
+FRAMES_AND_WINDOWS_URL: Final[str] = 'http://way2automation.com/way2auto_jquery/frames-and-windows.php'
+ALERT_PAGE_URL: Final[str] = 'http://way2automation.com/way2auto_jquery/alert.php'
+AUTH_PAGE_URL: Final[str] = 'https://www.httpwatch.com/httpgallery/authentication/#showExample10'
 
 # Таймауты
 DEFAULT_TIMEOUT: Final[int] = 10
 
 # Тестовые данные
 CUSTOM_TEXT: Final[str] = 'automation'
+CUSTOM_ALERT_TEXT: Final[str] = 'Mr. Fish'
 
 # Для формы авторизации
 class LoginTestData:
@@ -88,3 +93,7 @@ class RegistrationTestData:
     EMAIL: Final[str] = 'tony@stark.com'
     PASSWORD: Final[str] = 'password123'
     HOBBY: Final[str] = 'Sports'
+
+class AuthTestData:
+    LOGIN: Final[str] = 'httpwatch'
+    PASSWORD: Final[str] = 'httpwatch'

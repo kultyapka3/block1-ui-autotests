@@ -11,6 +11,7 @@ import pytest
 @allure.title('TC08: Падающий тест авторизации с отсутствующим элементом страницы')
 @pytest.mark.ui
 @pytest.mark.failing
+@pytest.mark.U4
 def test_login_page_failure_search_non_existent_element(login_form_page: LoginFormPage) -> None:
     login_form_page.enter_username_login(LoginTestData.USERNAME_LOGIN) \
                    .enter_password(LoginTestData.PASSWORD) \
