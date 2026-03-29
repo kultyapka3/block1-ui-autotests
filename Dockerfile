@@ -35,5 +35,4 @@ ENV WDM_LOCAL=/app/.wdm_cache
 RUN mkdir -p allure_results/selenoid allure-report .wdm_cache
 
 # Команда по умолчанию
-CMD ["pytest", "tests/test_basic_auth.py tests/test_input_alert.py tests/test_login_parameterized.py",
-    "--run-mode=grid", "--grid-url=${SELENIUM_HOST}", "--alluredir=./allure_results/selenoid", "-v"]
+CMD ["pytest", "tests/test_basic_auth.py tests/test_input_alert.py tests/test_login_parameterized.py", "--run-mode=grid", "--grid-url=${SELENIUM_HOST}", "--alluredir=./allure_results/selenoid", "-v"]
