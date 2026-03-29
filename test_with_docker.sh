@@ -46,7 +46,7 @@ for browser in "${BROWSERS[@]}"; do
 done
 
 echo "Generating Allure report..."
-allure generate allure_results/selenoid -o allure_report --clean
+allure generate allure_results/selenoid -o allure-report --clean
 
 echo "Stopping containers..."
 docker-compose down

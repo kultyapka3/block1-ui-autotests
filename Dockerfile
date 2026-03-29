@@ -32,7 +32,7 @@ ENV CI=true
 ENV WDM_LOCAL=/app/.wdm_cache
 
 # Создаём папки для отчётов
-RUN mkdir -p allure_results/selenoid allure_report .wdm_cache
+RUN mkdir -p allure_results/selenoid allure-report .wdm_cache
 
 # Команда по умолчанию
 CMD ["pytest", "tests/test_basic_auth.py tests/test_input_alert.py tests/test_login_parameterized.py",

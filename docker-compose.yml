@@ -12,7 +12,7 @@ services:
     volumes:
       # Отчеты
       - ./allure_results/selenoid:/app/allure_results/selenoid
-      - ./allure_report:/app/allure_report
+      - ./allure-report:/app/allure-report
       # Кеш pip
       - pip-cache:/root/.cache/pip
       # Кеш WDM
