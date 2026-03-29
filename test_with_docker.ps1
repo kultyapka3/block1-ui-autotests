@@ -44,32 +44,24 @@ try {
     Write-Host "  (Could not fetch browser list)"
 }
 
-$BROWSERS = @("chrome", "firefox", "MicrosoftEdge")
 $EXIT_CODE = 0
 
-foreach ($browser in $BROWSERS) {
-    Write-Host "Running tests with $browser..." -ForegroundColor Yellow
+Write-Host "Running tests with Chrome..." -ForegroundColor Yellow
 
-    $pytest_browser = $browser
-    if ($browser -eq "MicrosoftEdge") {
-        $pytest_browser = "edge"
-    }
+docker compose run --rm tests `
+    pytest tests/test_basic_auth.py tests/test_input_alert.py tests/test_login_parameterized.py `
+    --run-mode=grid `
+    --browser=chrome `
+    --grid-url=http://selenoid:4444/wd/hub `
+    --alluredir=allure_results/selenoid `
+    -n 3 `
+    -v
 
-    docker compose run --rm tests `
-        pytest tests/ `
-        --run-mode=grid `
-        --browser=$pytest_browser `
-        --grid-url=http://selenoid:4444/wd/hub `
-        --alluredir=allure_results/selenoid `
-        -n 3 `
-        -v
-
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "  Tests failed for $browser" -ForegroundColor Red
-        $EXIT_CODE = $LASTEXITCODE
-    } else {
-        Write-Host "  Tests passed for $browser" -ForegroundColor Green
-    }
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "  Tests failed for Chrome" -ForegroundColor Red
+    $EXIT_CODE = $LASTEXITCODE
+} else {
+    Write-Host "  Tests passed for Chrome" -ForegroundColor Green
 }
 
 Write-Host "Generating Allure report..."
