@@ -3,21 +3,19 @@
     "default": "120.0",
     "versions": {
       "120.0": {
-        "image": "selenoid/vnc_chrome:120.0",
+        "image": "browsers/chrome:120.0",
         "port": "4444",
-        "env": ["TZ=Europe/Moscow"],
-        "tmpfs": {"/tmp": "size=512m"}
+        "networks": ["selenium-net"]
       }
     }
   },
   "firefox": {
-    "default": "121.0",
+    "default": "119.0",
     "versions": {
-      "121.0": {
-        "image": "selenoid/vnc_firefox:121.0",
+      "119.0": {
+        "image": "browsers/firefox:119.0",
         "port": "4444",
-        "env": ["TZ=Europe/Moscow"],
-        "tmpfs": {"/tmp": "size=512m"}
+        "networks": ["selenium-net"]
       }
     }
   },
@@ -25,10 +23,9 @@
     "default": "120.0",
     "versions": {
       "120.0": {
-        "image": "selenoid/vnc_edge:120.0",
+        "image": "browsers/edge:120.0",
         "port": "4444",
-        "env": ["TZ=Europe/Moscow"],
-        "tmpfs": {"/tmp": "size=512m"}
+        "networks": ["selenium-net"]
       }
     }
   }

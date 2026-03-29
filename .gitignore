@@ -45,3 +45,5 @@ dist/
 
 data/data_for_login_with_cookies.py
 cookies
+allure-report/
+video/
