@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ui-tests
+    environment:
+      - SELENIUM_HOST=http://selenoid:4444/wd/hub
+      - CI=true
+    volumes:
+      # Отчеты
+      - ./allure_results/selenoid:/app/allure_results/selenoid
+      - ./allure_report:/app/allure_report
+      # Кеш pip
+      - pip-cache:/root/.cache/pip
+      # Кеш WDM
+      - wdm-cache:/app/.wdm_cache
+    depends_on:
+      - selenoid
+    networks:
+      - selenium-net
+
+  selenoid:
+    image: aerokube/selenoid:1.11.3
+    container_name: selenoid
+    ports:
+      - "4444:4444"
+    volumes:
+      - ./selenoid:/etc/selenoid:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./video:/opt/selenoid/video
+    environment:
+      - TZ=Europe/Moscow
+    command:
+      - "-conf"
+      - "/etc/selenoid/browsers.json"
+      - "-limit"
+      - "10"
+      - "-video-output-dir"
+      - "/opt/selenoid/video"
+      - "-log-output-dir"
+      - "/opt/selenoid/logs"
+    networks:
+      - selenium-net
+    restart: unless-stopped
+
+  selenoid-ui:
+    image: aerokube/selenoid-ui:1.10.11
+    container_name: selenoid-ui
+    ports:
+      - "8081:8080"
+    depends_on:
+      - selenoid
+    command: ["--selenoid-uri", "http://selenoid:4444"]
+    networks:
+      - selenium-net
+    restart: unless-stopped
+
+networks:
+  selenium-net:
+    driver: bridge
+
+volumes:
+  pip-cache:
+  wdm-cache:
