@@ -36,14 +36,6 @@ for ($i = 1; $i -le 30; $i++) {
     Start-Sleep -Seconds 5
 }
 
-Write-Host "Available browsers:"
-try {
-    $browsers = curl -UseBasicParsing -Uri "http://localhost:4444/wd/hub/status" -TimeoutSec 5
-    $browsers.Content | ConvertFrom-Json | Select-Object -ExpandProperty value -ErrorAction SilentlyContinue
-} catch {
-    Write-Host "  (Could not fetch browser list)"
-}
-
 $EXIT_CODE = 0
 
 Write-Host "Running tests with Chrome..." -ForegroundColor Yellow
